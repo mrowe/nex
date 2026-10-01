@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Data
 
 enum HelpData {
-    static let githubURL = URL(string: "https://github.com/benfriebe/nex")!
+    static let githubURL = URL(string: "https://github.com/mrowe/nex")!
 
     static var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"

@@ -22,9 +22,15 @@ Nex gives you named, persistent workspaces with free-form pane splits, multi-rep
 
 ### From a release (recommended)
 
-1. Download the latest `Nex-X.Y.Z.dmg` from [Releases](https://github.com/benfriebe/nex/releases/latest).
+1. Download the latest `Nex-X.Y.Z.dmg` from [Releases](https://github.com/mrowe/nex/releases/latest).
 2. Drag `Nex.app` into `/Applications`.
-3. Run the post-install helper to install the `nex` CLI and wire up Claude Code hooks:
+3. Releases are ad-hoc signed, not notarized, so Gatekeeper blocks the first launch. Clear the quarantine flag once (Sparkle updates after that need nothing):
+
+   ```bash
+   xattr -dr com.apple.quarantine /Applications/Nex.app
+   ```
+
+4. Run the post-install helper to install the `nex` CLI and wire up Claude Code hooks:
 
    ```bash
    /Applications/Nex.app/Contents/Resources/scripts/install-hooks.sh
@@ -37,7 +43,7 @@ Auto-updates are delivered via Sparkle. The CLI symlink heals itself on every la
 ### From source
 
 ```bash
-git clone --recurse-submodules git@github.com:benfriebe/nex.git
+git clone --recurse-submodules git@github.com:mrowe/nex.git
 cd nex
 brew install xcodegen swiftlint swiftformat
 xcodegen generate --spec project.yml
@@ -400,6 +406,6 @@ xcodebuild -scheme Nex -destination 'platform=macOS' -skipMacroValidation \
 
 ## Issues and contributions
 
-Bugs and feature requests live in [GitHub Issues](https://github.com/benfriebe/nex/issues). PRs welcome.
+Bugs and feature requests live in [GitHub Issues](https://github.com/mrowe/nex/issues). PRs welcome.
 
 See [`CLAUDE.md`](CLAUDE.md) for architecture, reducer hierarchy, dependency wiring, and the full pane-command wire protocol.

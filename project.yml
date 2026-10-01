@@ -15,15 +15,10 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     MACOSX_DEPLOYMENT_TARGET: "14.0"
-    DEVELOPMENT_TEAM: "4ASXCG2599"
+    DEVELOPMENT_TEAM: ""
     ENABLE_HARDENED_RUNTIME: true
-  configs:
-    Debug:
-      CODE_SIGN_IDENTITY: "Apple Development"
-      CODE_SIGN_STYLE: Automatic
-    Release:
-      CODE_SIGN_IDENTITY: "Developer ID Application"
-      CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
 
 packages:
   ComposableArchitecture:

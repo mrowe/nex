@@ -10,12 +10,10 @@ permissions:
 
 env:
   ZIG_VERSION: "0.16.0"
-  SIGNING_IDENTITY: "Developer ID Application: BENJAMIN RYAN FRIEBE (4ASXCG2599)"
 
 jobs:
   release:
     runs-on: macos-15
-    environment: Nex
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,30 +24,6 @@ jobs:
       - name: Extract version from tag
         id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-
-      - name: Import signing certificate
-        env:
-          DEVELOPER_ID_CERTIFICATE: ${{ secrets.DEVELOPER_ID_CERTIFICATE }}
-          DEVELOPER_ID_PASSWORD: ${{ secrets.DEVELOPER_ID_PASSWORD }}
-        run: |
-          KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
-          KEYCHAIN_PASSWORD=$(openssl rand -base64 32)
-
-          # Create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-
-          # Import certificate
-          echo "$DEVELOPER_ID_CERTIFICATE" | base64 --decode > $RUNNER_TEMP/certificate.p12
-          security import $RUNNER_TEMP/certificate.p12 \
-            -P "$DEVELOPER_ID_PASSWORD" \
-            -A -t cert -f pkcs12 \
-            -k "$KEYCHAIN_PATH"
-
-          # Allow codesign to access the keychain
-          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security list-keychains -d user -s "$KEYCHAIN_PATH" login.keychain
 
       - name: Install Zig
         uses: mlugg/setup-zig@v2
@@ -87,30 +61,15 @@ jobs:
             CURRENT_PROJECT_VERSION=${{ steps.version.outputs.version }} \
             MARKETING_VERSION=${{ steps.version.outputs.version }}
 
+      # Ad-hoc signed, not notarized: no Apple Developer account. Sparkle
+      # verifies updates with its own EdDSA key, so auto-update still works;
+      # only the first manual install needs the quarantine flag cleared.
       - name: Sign app
         run: |
           APP_PATH="build/Nex.xcarchive/Products/Applications/Nex.app"
-          codesign --force --deep --sign "$SIGNING_IDENTITY" --timestamp --options runtime \
+          codesign --force --deep --sign - --options runtime \
             --entitlements Nex/Nex.entitlements "$APP_PATH"
           codesign --verify --verbose "$APP_PATH"
-
-      - name: Notarize app
-        timeout-minutes: 30
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLE_TEAM_ID: "4ASXCG2599"
-        run: |
-          APP_PATH="build/Nex.xcarchive/Products/Applications/Nex.app"
-
-          ditto -c -k --keepParent "$APP_PATH" build/Nex.zip
-          xcrun notarytool submit build/Nex.zip \
-            --apple-id "$APPLE_ID" \
-            --password "$APPLE_ID_PASSWORD" \
-            --team-id "$APPLE_TEAM_ID" \
-            --wait
-          xcrun stapler staple "$APP_PATH"
-          rm build/Nex.zip
 
       - name: Create DMG
         run: |
