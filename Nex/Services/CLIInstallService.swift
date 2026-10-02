@@ -19,9 +19,10 @@ enum CLIInstallService {
     private static let skillDestDir = ("~/.claude/skills/nex-agentic" as NSString).expandingTildeInPath
     private static let notifiedVersionKey = "cliInstallHealNotifiedVersion"
 
-    /// Developer Team ID used to code-sign both the app and the bundled CLI
-    /// (see `project.yml` post-compile script). Used to verify that an
-    /// existing `/usr/local/bin/nex` is Nex-managed before we touch it.
+    /// Team ID of the original benfriebe/nex Developer ID builds. Used to
+    /// verify that an existing `/usr/local/bin/nex` is Nex-managed before we
+    /// touch it. mrowe/nex builds are ad-hoc signed (no Team ID), so they are
+    /// only recognised via the symlink fast path and the broken-symlink suffix.
     private static let expectedTeamID = "4ASXCG2599"
 
     /// Single-shot guard: `.onAppear` can fire more than once during a
