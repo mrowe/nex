@@ -46,9 +46,9 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/benfriebe/nex/main/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/mrowe/nex/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>ut31p12qPZOXEjkFYoGTOdgMgAEjqMpHwyCRp6OaTa8=</string>
+	<string>4kUXv9M5ne8MhgQcCDcNa0w83yOrguIin2lXAw8C8ys=</string>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
