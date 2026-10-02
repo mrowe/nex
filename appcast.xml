@@ -5,6 +5,6 @@
     <link>https://github.com/mrowe/nex</link>
     <description>Nex update feed</description>
     <language>en</language>
-    <!-- Items will be prepended by the release workflow -->
+    <!-- Template: the release workflow adds the new item and publishes it as a release asset -->
   </channel>
 </rss>

@@ -46,7 +46,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/mrowe/nex/main/appcast.xml</string>
+	<string>https://github.com/mrowe/nex/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>4kUXv9M5ne8MhgQcCDcNa0w83yOrguIin2lXAw8C8ys=</string>
 	<key>UTImportedTypeDeclarations</key>

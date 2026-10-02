@@ -167,7 +167,7 @@ All services are registered as TCA dependencies: `surfaceManager`, `persistenceS
 2. Commit: `chore: bump version to X.Y.Z`
 3. Push to `main`
 4. Create and push tag: `git tag vX.Y.Z && git push origin vX.Y.Z`
-5. GitHub Actions handles archive, sign, notarize, DMG, and appcast update
+5. GitHub Actions handles archive, ad-hoc signing (no notarization), DMG, Sparkle signing, and the GitHub Release; `appcast.xml` ships as a release asset (`SUFeedURL` = `releases/latest/download/appcast.xml`)
 6. Update release notes via `gh release edit` with a proper changelog
 
 Do NOT run `make release`, `make archive`, or `make dmg` locally.
